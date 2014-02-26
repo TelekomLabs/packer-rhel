@@ -124,7 +124,7 @@
       "ssh_host_port_max": 2229,
       "shutdown_command": "shutdown -P now",
       "format": "qcow2",
-      "headless": false,
+      "headless": true,
       "accelerator": "kvm",
       "vm_name": "centos65-build",
       "net_device": "virtio-net",
@@ -144,7 +144,7 @@
       "iso_checksum_type": "md5",
       "iso_url": "http://ftp-stud.fht-esslingen.de/pub/Mirrors/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
       "output_directory": "img_centos65_virtualbox_iso",
-      "headless" : true
+      "headless": true,
       "ssh_username": "veewee",
       "ssh_password": "veewee",
       "ssh_port": 22,
