@@ -1,0 +1,240 @@
+{
+  "provisioners": [{
+    "type": "shell",
+    "scripts": [
+      "scripts/base.sh",
+      "scripts/chef.sh",
+      "scripts/puppet.sh",
+      "scripts/vagrant.sh",
+      "scripts/virtualbox.sh",
+      "scripts/cleanup.sh",
+      "scripts/zerodisk.sh"
+    ],
+    "override": {
+      "centos-65-vbox": {
+        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+      },
+      "centos-65-vmware": {
+        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+      },
+      "oel-65-vbox": {
+        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+      },
+      "oel-65-vmware": {
+        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+      }
+    },
+    "only": ["centos-65-vbox", "centos-65-vmware", "oel-65-vbox",  "oel-65-vmware"]
+  }, {
+    "type": "shell",
+    "scripts": [
+      "scripts/base.sh",
+      "scripts/cloud.sh",
+      "scripts/cleanup.sh",
+      "scripts/zerodisk.sh"
+    ],
+    "override": {
+      "centos-65-openstack": {
+        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+      },
+      "oel-65-openstack": {
+        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+      }
+    },
+    "only": ["centos-65-openstack", "oel-65-openstack"]
+  }],
+  "builders": [{
+    "name": "centos-65-vbox",
+    "type": "virtualbox-iso",
+    "boot_command": [
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+    ],
+    "boot_wait": "10s",
+    "disk_size": 10140,
+    "guest_os_type": "RedHat_64",
+    "http_directory": "http",
+    "iso_checksum": "0d9dc37b5dd4befa1c440d2174e88a87",
+    "iso_checksum_type": "md5",
+    "iso_url": "http://ftp-stud.fht-esslingen.de/pub/Mirrors/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
+    "output_directory": "img_centos_65_virtualbox",
+    "ssh_username": "veewee",
+    "ssh_password": "veewee",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+    "virtualbox_version_file": ".vbox_version",
+    "vboxmanage": [
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--memory",
+        "480"
+      ],
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--cpus",
+        "1"
+      ]
+    ]
+  }, {
+    "name": "centos-65-vmware",
+    "type": "vmware-iso",
+    "boot_command": [
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+    ],
+    "boot_wait": "10s",
+    "disk_size": 10140,
+    "guest_os_type": "rhel6-64",
+    "http_directory": "http",
+    "iso_checksum": "0d9dc37b5dd4befa1c440d2174e88a87",
+    "iso_checksum_type": "md5",
+    "iso_url": "http://ftp-stud.fht-esslingen.de/pub/Mirrors/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
+    "output_directory": "img_centos_65_vmware",
+    "ssh_username": "veewee",
+    "ssh_password": "veewee",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "vmx_data": {
+      "memsize": "480",
+      "numvcpus": "1",
+      "cpuid.coresPerSocket": "1"
+    }
+  }, {
+    "name": "centos-65-openstack",
+    "type": "virtualbox-iso",
+    "boot_command": [
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+    ],
+    "boot_wait": "10s",
+    "disk_size": 10140,
+    "guest_os_type": "RedHat_64",
+    "http_directory": "http",
+    "iso_checksum": "0d9dc37b5dd4befa1c440d2174e88a87",
+    "iso_checksum_type": "md5",
+    "iso_url": "http://ftp-stud.fht-esslingen.de/pub/Mirrors/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
+    "output_directory": "img_centos_65_virtualbox",
+    "ssh_username": "veewee",
+    "ssh_password": "veewee",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+    "virtualbox_version_file": ".vbox_version",
+    "vboxmanage": [
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--memory",
+        "480"
+      ],
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--cpus",
+        "1"
+      ]
+    ]
+  }, {
+    "name": "oel-65-vbox",
+    "type": "virtualbox-iso",
+    "boot_command": [
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+    ],
+    "boot_wait": "10s",
+    "disk_size": 10140,
+    "guest_os_type": "RedHat_64",
+    "http_directory": "http",
+    "iso_checksum": "744826ce6924fdc93dac3f44fd825764e4de98111239a68ceb8c27be5f71cb99",
+    "iso_checksum_type": "sha256",
+    "iso_url": "http://mirror.netcologne.de/oracle-linux/OL6/U5/x86_64/OracleLinux-R6-U5-Server-x86_64-dvd.iso",
+    "output_directory": "img_oel_65_virtualbox",
+    "ssh_username": "veewee",
+    "ssh_password": "veewee",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+    "virtualbox_version_file": ".vbox_version",
+    "vboxmanage": [
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--memory",
+        "480"
+      ],
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--cpus",
+        "1"
+      ]
+    ]
+  }, {
+    "name": "oel-65-vmware",
+    "type": "vmware-iso",
+    "boot_command": [
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+    ],
+    "boot_wait": "10s",
+    "disk_size": 10140,
+    "guest_os_type": "rhel6-64",
+    "http_directory": "http",
+    "iso_checksum": "744826ce6924fdc93dac3f44fd825764e4de98111239a68ceb8c27be5f71cb99",
+    "iso_checksum_type": "sha256",
+    "iso_url": "http://mirror.netcologne.de/oracle-linux/OL6/U5/x86_64/OracleLinux-R6-U5-Server-x86_64-dvd.iso",
+    "output_directory": "img_oel_65_vmware",
+    "ssh_username": "veewee",
+    "ssh_password": "veewee",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "vmx_data": {
+      "memsize": "480",
+      "numvcpus": "1",
+      "cpuid.coresPerSocket": "1"
+    }
+  }, {
+    "name": "oel-65-openstack",
+    "type": "virtualbox-iso",
+    "boot_command": [
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+    ],
+    "boot_wait": "10s",
+    "disk_size": 10140,
+    "guest_os_type": "RedHat_64",
+    "http_directory": "http",
+    "iso_checksum": "744826ce6924fdc93dac3f44fd825764e4de98111239a68ceb8c27be5f71cb99",
+    "iso_checksum_type": "sha256",
+    "iso_url": "http://mirror.netcologne.de/oracle-linux/OL6/U5/x86_64/OracleLinux-R6-U5-Server-x86_64-dvd.iso",
+    "output_directory": "img_oel_65_openstack",
+    "headless": false,
+    "ssh_username": "veewee",
+    "ssh_password": "veewee",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "vboxmanage": [
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--memory",
+        "480"
+      ],
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--cpus",
+        "1"
+      ]
+    ]
+  }],
+  "post-processors": [{
+    "type": "vagrant",
+    "compression_level": 1,
+    "keep_input_artifact": true,
+    "only": ["centos-65-vbox", "centos-65-vmware", "oel-65-vbox", "oel-65-vmware" ]
+  }]
+}
