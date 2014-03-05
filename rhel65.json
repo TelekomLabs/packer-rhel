@@ -12,16 +12,16 @@
     ],
     "override": {
       "centos-65-vbox": {
-        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+        "execute_command": "echo 'packer'|sudo -S sh '{{.Path}}'"
       },
       "centos-65-vmware": {
-        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+        "execute_command": "echo 'packer'|sudo -S sh '{{.Path}}'"
       },
       "oel-65-vbox": {
-        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+        "execute_command": "echo 'packer'|sudo -S sh '{{.Path}}'"
       },
       "oel-65-vmware": {
-        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+        "execute_command": "echo 'packer'|sudo -S sh '{{.Path}}'"
       }
     },
     "only": ["centos-65-vbox", "centos-65-vmware", "oel-65-vbox",  "oel-65-vmware"]
@@ -35,10 +35,10 @@
     ],
     "override": {
       "centos-65-openstack": {
-        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+        "execute_command": "echo 'sh '{{.Path}}'"
       },
       "oel-65-openstack": {
-        "execute_command": "echo 'veewee'|sudo -S sh '{{.Path}}'"
+        "execute_command": "echo 'sh '{{.Path}}'"
       }
     },
     "only": ["centos-65-openstack", "oel-65-openstack"]
@@ -57,11 +57,11 @@
     "iso_checksum_type": "md5",
     "iso_url": "http://ftp-stud.fht-esslingen.de/pub/Mirrors/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
     "output_directory": "img_centos_65_virtualbox",
-    "ssh_username": "veewee",
-    "ssh_password": "veewee",
+    "ssh_username": "packer",
+    "ssh_password": "packer",
     "ssh_port": 22,
     "ssh_wait_timeout": "10000s",
-    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'packer'|sudo -S sh 'shutdown.sh'",
     "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
     "virtualbox_version_file": ".vbox_version",
     "vboxmanage": [
@@ -92,11 +92,11 @@
     "iso_checksum_type": "md5",
     "iso_url": "http://ftp-stud.fht-esslingen.de/pub/Mirrors/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
     "output_directory": "img_centos_65_vmware",
-    "ssh_username": "veewee",
-    "ssh_password": "veewee",
+    "ssh_username": "packer",
+    "ssh_password": "packer",
     "ssh_port": 22,
     "ssh_wait_timeout": "10000s",
-    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'packer'|sudo -S sh 'shutdown.sh'",
     "vmx_data": {
       "memsize": "480",
       "numvcpus": "1",
@@ -106,7 +106,7 @@
     "name": "centos-65-openstack",
     "type": "virtualbox-iso",
     "boot_command": [
-      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_cloud.cfg<enter><wait>"
     ],
     "boot_wait": "10s",
     "disk_size": 10140,
@@ -116,11 +116,11 @@
     "iso_checksum_type": "md5",
     "iso_url": "http://ftp-stud.fht-esslingen.de/pub/Mirrors/centos/6.5/isos/x86_64/CentOS-6.5-x86_64-minimal.iso",
     "output_directory": "img_centos_65_virtualbox",
-    "ssh_username": "veewee",
-    "ssh_password": "veewee",
+    "ssh_username": "root",
+    "ssh_password": "changeme",
     "ssh_port": 22,
     "ssh_wait_timeout": "10000s",
-    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'packer'|sudo -S sh 'shutdown.sh'",
     "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
     "virtualbox_version_file": ".vbox_version",
     "vboxmanage": [
@@ -151,11 +151,11 @@
     "iso_checksum_type": "sha256",
     "iso_url": "http://mirror.netcologne.de/oracle-linux/OL6/U5/x86_64/OracleLinux-R6-U5-Server-x86_64-dvd.iso",
     "output_directory": "img_oel_65_virtualbox",
-    "ssh_username": "veewee",
-    "ssh_password": "veewee",
+    "ssh_username": "packer",
+    "ssh_password": "packer",
     "ssh_port": 22,
     "ssh_wait_timeout": "10000s",
-    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'packer'|sudo -S sh 'shutdown.sh'",
     "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
     "virtualbox_version_file": ".vbox_version",
     "vboxmanage": [
@@ -186,11 +186,11 @@
     "iso_checksum_type": "sha256",
     "iso_url": "http://mirror.netcologne.de/oracle-linux/OL6/U5/x86_64/OracleLinux-R6-U5-Server-x86_64-dvd.iso",
     "output_directory": "img_oel_65_vmware",
-    "ssh_username": "veewee",
-    "ssh_password": "veewee",
+    "ssh_username": "packer",
+    "ssh_password": "packer",
     "ssh_port": 22,
     "ssh_wait_timeout": "10000s",
-    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'packer'|sudo -S sh 'shutdown.sh'",
     "vmx_data": {
       "memsize": "480",
       "numvcpus": "1",
@@ -200,7 +200,7 @@
     "name": "oel-65-openstack",
     "type": "virtualbox-iso",
     "boot_command": [
-      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_cloud.cfg<enter><wait>"
     ],
     "boot_wait": "10s",
     "disk_size": 10140,
@@ -211,11 +211,11 @@
     "iso_url": "http://mirror.netcologne.de/oracle-linux/OL6/U5/x86_64/OracleLinux-R6-U5-Server-x86_64-dvd.iso",
     "output_directory": "img_oel_65_openstack",
     "headless": false,
-    "ssh_username": "veewee",
-    "ssh_password": "veewee",
+    "ssh_username": "root",
+    "ssh_password": "changeme",
     "ssh_port": 22,
     "ssh_wait_timeout": "10000s",
-    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'veewee'|sudo -S sh 'shutdown.sh'",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'packer'|sudo -S sh 'shutdown.sh'",
     "vboxmanage": [
       [
         "modifyvm",
