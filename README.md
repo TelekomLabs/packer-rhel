@@ -10,13 +10,13 @@ This repo started by using the [veewee templates](https://github.com/jedi4ever/v
 
 For all operating systems we generate images for 
 
- - Virtual Box
- - VmWare
+ - Virtual Box (user: packer/packer)
+ - VmWare (user: packer/packer)
  - OpenStack
 
 This template only is tested against 64 bit systems. 
 
-## Packer
+## Requirements
 
 The templates are only tested with [packer](http://www.packer.io/downloads.html) 0.5.2 and later.
 
@@ -27,6 +27,9 @@ The templates are only tested with [packer](http://www.packer.io/downloads.html)
 
     # Build Oracle Linux virtualbox image
     PACKER_LOG=1 packer build -only="oel-65-vbox" rhel65.json
+
+    # Build CentOS openstack image
+    PACKER_LOG=1 packer build -only="centos-65-cloud-vbox" rhel65.json
 
 ## Install packer on Ubuntu
 
@@ -41,19 +44,30 @@ The templates are only tested with [packer](http://www.packer.io/downloads.html)
     echo "export PATH=\$PATH:~/packer/" >> ~/.bashrc
     source ~/.bashrc
 
-### Install virtualbox
+### Install virtualbox on Ubuntu 12.04
 
-    echo "deb http://download.virtualbox.org/virtualbox/debian saucy contrib" >> /etc/apt/sources.list
+    echo "deb http://download.virtualbox.org/virtualbox/debian precise contrib" >> /etc/apt/sources.list
     wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
     sudo apt-get update
     sudo apt-get install -y virtualbox-4.3
+
+### Install kvm
+
+    apt-get install -y qemu-kvm
 
 
 ## Convert the image for OpenStack
 
     apt-get install -y qemu-system
-    qemu-img convert -f vmdk -O qcow2 centos65.dsk centos65.qcow2
 
+    # convert vmdk to raw (if cloud image was built with virtualbox)
+    VBoxManage clonehd --format RAW centos65.vmdk centos65.img
+
+    # convert raw to qcow2
+    qemu-img convert -f raw -O qcow2 centos65.img centos65.qcow2
+
+    # upload the image
+    glance image-create --name "CentOS 6.5" --container-format ovf --disk-format qcow2 --file centos65.qcow2 --is-public True --progress
 
 # License
 
