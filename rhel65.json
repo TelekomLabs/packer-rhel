@@ -43,11 +43,17 @@
       "centos-65-cloud-vbox": {
         "execute_command": "sh '{{.Path}}'"
       },
+      "oel-65-cloud-kvm": {
+        "execute_command": "sh '{{.Path}}'"
+      },
       "oel-65-cloud-vbox": {
+        "execute_command": "sh '{{.Path}}'"
+      },
+      "rhel-65-cloud-kvm": {
         "execute_command": "sh '{{.Path}}'"
       }
     },
-    "only": ["centos-65-cloud-kvm", "centos-65-cloud-vbox", "oel-65-cloud-vbox"]
+    "only": ["centos-65-cloud-kvm", "centos-65-cloud-vbox", "oel-65-cloud-kvm", "oel-65-cloud-vbox", "rhel-65-cloud-kvm"]
   }],
   "builders": [{
       "name": "centos-65-vbox",
@@ -119,7 +125,7 @@
       "shutdown_command": "shutdown -P now",
       "disk_size": 5000,
       "format": "qcow2",
-      "headless": true,
+      "headless": false,
       "accelerator": "kvm",
       "http_directory": "http",
       "http_port_min": 10082,
@@ -130,7 +136,7 @@
       "ssh_password": "changeme",
       "ssh_port": 22,
       "ssh_wait_timeout": "90m",
-      "vm_name": "tdhtest",
+      "vm_name": "centos65_openstack",
       "net_device": "virtio-net",
       "disk_interface": "virtio",
       "boot_command": [
@@ -265,7 +271,63 @@
         "1"
       ]
     ]
-  }],
+  }, {
+      "name": "oel-65-cloud-kvm",
+      "type": "qemu",
+      "iso_checksum": "744826ce6924fdc93dac3f44fd825764e4de98111239a68ceb8c27be5f71cb99",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://mirror.netcologne.de/oracle-linux/OL6/U5/x86_64/OracleLinux-R6-U5-Server-x86_64-dvd.iso",
+      "output_directory": "img_oel_65_openstack",
+      "ssh_wait_timeout": "30s",
+      "shutdown_command": "shutdown -P now",
+      "disk_size": 5000,
+      "format": "qcow2",
+      "headless": false,
+      "accelerator": "kvm",
+      "http_directory": "http",
+      "http_port_min": 10082,
+      "http_port_max": 10089,
+      "ssh_host_port_min": 2222,
+      "ssh_host_port_max": 2229,
+      "ssh_username": "root",
+      "ssh_password": "changeme",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "90m",
+      "vm_name": "oel65_openstack",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_cloud.cfg<enter><wait>"
+      ]
+    },{
+      "name": "rhel-65-cloud-kvm",
+      "type": "qemu",
+      "iso_checksum": "a51b90f3dd4585781293ea08adde60eeb9cfa94670943bd99e9c07f13a259539",
+      "iso_checksum_type": "sha256",
+      "iso_url": "/home/chris/Downloads/rhel-server-6.5-x86_64-dvd.iso",
+      "output_directory": "img_rhel_65_openstack",
+      "ssh_wait_timeout": "30s",
+      "shutdown_command": "shutdown -P now",
+      "disk_size": 5000,
+      "format": "qcow2",
+      "headless": false,
+      "accelerator": "kvm",
+      "http_directory": "http",
+      "http_port_min": 10082,
+      "http_port_max": 10089,
+      "ssh_host_port_min": 2222,
+      "ssh_host_port_max": 2229,
+      "ssh_username": "root",
+      "ssh_password": "changeme",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "90m",
+      "vm_name": "rhel65_openstack",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_cloud.cfg<enter><wait>"
+      ]
+    }],
   "post-processors": [{
     "type": "vagrant",
     "compression_level": 1,
