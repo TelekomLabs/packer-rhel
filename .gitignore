@@ -1,1 +1,3 @@
 prepare
+/packer_cache/*
+/img*
