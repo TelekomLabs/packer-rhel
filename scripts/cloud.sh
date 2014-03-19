@@ -14,15 +14,18 @@ yum -y install cloud-init
 #pip install heat-cfntools
 #cfn-create-aws-symlinks --source /usr/bin
 
+# Install haveged for entropy
+yum -y install haveged
+
 # Configure serial console
 
-#In order for nova console-log to work properly on CentOS 6.x
-# already done in 6.5
-# echo "serial --unit=0 --speed=115200"  >> /boot/grub/grub.conf
-# echo "terminal --timeout=10 console serial"  >> /boot/grub/grub.conf
+  #In order for nova console-log to work properly on CentOS 6.x
+  # already done in 6.5
+  # echo "serial --unit=0 --speed=115200"  >> /boot/grub/grub.conf
+  # echo "terminal --timeout=10 console serial"  >> /boot/grub/grub.conf
 
-# Edit the kernel line to add the console entries
-# echo "kernel ... console=tty0 console=ttyS0,115200n8"  >> /boot/grub/menu.lst
+  # Edit the kernel line to add the console entries
+  # echo "kernel ... console=tty0 console=ttyS0,115200n8"  >> /boot/grub/menu.lst
 sed -i '/kernel/s|$| console=tty0 console=ttyS0,115200n8 |' /boot/grub/grub.conf
 
 
@@ -41,3 +44,5 @@ cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcf
 
 # remove password from root
 passwd -d root
+
+
