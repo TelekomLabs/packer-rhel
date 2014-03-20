@@ -28,10 +28,68 @@ The templates are only tested with [packer](http://www.packer.io/downloads.html)
     # Build Oracle Linux virtualbox image
     PACKER_LOG=1 packer build -only="oel-65-vbox" rhel65.json
 
-    # Build CentOS openstack image
-    PACKER_LOG=1 packer build -only="centos-65-cloud-vbox" rhel65.json
+## Build cloud images for openstack
 
-## Install packer on Ubuntu
+### CentOS
+
+    # Build CentOS openstack image and compress qcow2 image before 
+    # upload (normally from 4.5 GB to less than 500 MB)
+    packer build -only="centos-65-cloud-kvm" rhel65.json
+
+    # Reduce the file size
+    qemu-img convert -c -f qcow2 -O qcow2 -o cluster_size=2M img_centos_65_openstack/centos65_openstack.qcow2 img_centos_65_openstack/centos65_openstack_compressed.qcow2
+
+    # Upload the file to open stack
+    glance image-create --name "CentOS 6.5" --container-format ovf --disk-format qcow2 --file img_centos_65_openstack/centos65_openstack_compressed.qcow2 --is-public True --progress
+
+### Oralce Linux
+
+    # Build Oracle Linux openstack image and compress qcow2 image before 
+    packer build -only="oel-65-cloud-kvm" rhel65.json
+    
+    # Reduce the file size
+    qemu-img convert -c -f qcow2 -O qcow2 -o cluster_size=2M img_oel_65_openstack/oel65_openstack.qcow2 img_oel_65_openstack/centos65_openstack_compressed.qcow2
+    
+    # Upload the file to open stack
+    glance image-create --name "OEL 6.5" --container-format ovf --disk-format qcow2 --file img_oel_65_openstack/centos65_openstack_compressed.qcow2 --is-public True --progress
+
+### RedHat
+
+Before you start with RedHat you need a valid subscription to download the latest iso image. Update the `iso_url` parameter in rhel65.json accordingly. Additionally you need to modify the file `scripts/rhn_reg` with your user credentials to recieve yum updates during the packer run.
+
+    # Build RedHat openstack image
+    packer build -only="rhel-65-cloud-kvm" rhel65.json
+
+    # Reduce the file size
+    qemu-img convert -c -f qcow2 -O qcow2 -o cluster_size=2M rhel65_openstack.qcow2 rhel65_openstack_compressed.qcow2
+
+    # Upload the file to open stack
+    glance image-create --name "RedHat 6.5" --container-format ovf --disk-format qcow2 --file rhel65_openstack_compressed.qcow2 --is-public True --progress
+
+## Issues during build time
+
+If you expierence issues with packer, please use `PACKER_LOG=1 packer ... ` to find the errors.
+
+## Using kvm
+
+### Install packer
+
+    cd ~
+    apt-get install -y unzip
+    mkdir packer
+    cd packer
+    wget https://dl.bintray.com/mitchellh/packer/0.5.2_linux_amd64.zip
+    unzip 0.5.2_linux_amd64.zip
+    echo "export PATH=\$PATH:~/packer/" >> ~/.bashrc
+    source ~/.bashrc
+
+### Install kvm
+
+    apt-get install -y qemu-kvm
+
+Now you are ready to start packer.
+
+## Using virtualbox on Ubutu 12.04
 
 ### Install packer
 
@@ -51,12 +109,9 @@ The templates are only tested with [packer](http://www.packer.io/downloads.html)
     sudo apt-get update
     sudo apt-get install -y virtualbox-4.3
 
-### Install kvm
-
-    apt-get install -y qemu-kvm
-
-
 ## Convert the image for OpenStack
+
+Be aware, that the kvm builder is prefered for openstack images.
 
     apt-get install -y qemu-system
 
