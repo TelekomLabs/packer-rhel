@@ -53,7 +53,24 @@
         "execute_command": "sh '{{.Path}}'"
       }
     },
-    "only": ["centos-65-cloud-kvm", "centos-65-cloud-vbox", "oel-65-cloud-kvm", "oel-65-cloud-vbox", "rhel-65-cloud-kvm"]
+    "only": ["centos-65-cloud-kvm", "centos-65-cloud-vbox", "oel-65-cloud-kvm", "oel-65-cloud-vbox"]
+  }, {
+    "type": "shell",
+    "scripts": [
+      "scripts/rhn_reg.sh",
+      "scripts/base.sh",
+      "scripts/epel.sh",
+      "scripts/cloud.sh",
+      "scripts/rhn_unreg.sh",
+      "scripts/cleanup.sh",
+      "scripts/zerodisk.sh"
+    ],
+    "override": {
+      "rhel-65-cloud-kvm": {
+        "execute_command": "sh '{{.Path}}'"
+      }
+    },
+    "only": ["rhel-65-cloud-kvm"]
   }],
   "builders": [{
       "name": "centos-65-vbox",
