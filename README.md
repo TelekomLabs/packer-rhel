@@ -124,6 +124,11 @@ Be aware, that the kvm builder is prefered for openstack images.
     # upload the image
     glance image-create --name "CentOS 6.5" --container-format ovf --disk-format qcow2 --file centos65.qcow2 --is-public True --progress
 
+
+## Author
+
+ - Christoph Hartmann
+
 # License
 
 Company: Deutsche Telekom AG
