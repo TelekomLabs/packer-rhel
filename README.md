@@ -1,4 +1,4 @@
-# Packer Image Builder for Ubuntu 12.04
+# Packer Image Builder for RHEL Family
 
 ## Instroduction
 
