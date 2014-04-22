@@ -127,7 +127,7 @@ Be aware, that the kvm builder is prefered for openstack images.
 
 ## Author
 
- - Christoph Hartmann
+ - Author:: Christoph Hartmann (<chris@lollyrock.com>)
 
 # License
 
