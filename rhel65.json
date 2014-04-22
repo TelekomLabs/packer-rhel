@@ -321,7 +321,7 @@
       "type": "qemu",
       "iso_checksum": "a51b90f3dd4585781293ea08adde60eeb9cfa94670943bd99e9c07f13a259539",
       "iso_checksum_type": "sha256",
-      "iso_url": "/home/chris/Downloads/rhel-server-6.5-x86_64-dvd.iso",
+      "iso_url": "http://yourrheldownloadurl.com/rhel-server-6.5-x86_64-dvd.iso",
       "output_directory": "img_rhel_65_openstack",
       "ssh_wait_timeout": "30s",
       "shutdown_command": "shutdown -P now",
