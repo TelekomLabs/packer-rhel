@@ -1,8 +1,8 @@
 # Packer Image Builder for RHEL Family
 
-## Instroduction
+## Introduction
 
-This repo started by using the [veewee templates](https://github.com/jedi4ever/veewee/tree/master/templates) for Centos OS. They have been adapted and improved. Furthermore the build machanism changed. Instead of maintaining multiple templates for RedHat, Centos and Oralce Linux we use the same scripts for all of them. Currently this templates support
+This repository started by using the [veewee templates](https://github.com/jedi4ever/veewee/tree/master/templates) for Centos OS. They have been adapted and improved. Furthermore the build mechanism changed. Instead of maintaining multiple templates for RedHat, Centos and Oracle Linux we use the same scripts for all of them. Currently this templates support
 
  - RedHat 6.5
  - Centos 6.5
@@ -20,7 +20,7 @@ This template only is tested against 64 bit systems.
 
 The templates are only tested with [packer](http://www.packer.io/downloads.html) 0.5.2 and later.
 
-## Run converison process
+## Run conversion process
 
     # Build CentOS virtualbox image
     PACKER_LOG=1 packer build -only="centos-65-vbox" rhel65.json
@@ -42,7 +42,7 @@ The templates are only tested with [packer](http://www.packer.io/downloads.html)
     # Upload the file to open stack
     glance image-create --name "CentOS 6.5" --container-format ovf --disk-format qcow2 --file img_centos_65_openstack/centos65_openstack_compressed.qcow2 --is-public True --progress
 
-### Oralce Linux
+### Oracle Linux
 
     # Build Oracle Linux openstack image and compress qcow2 image before 
     packer build -only="oel-65-cloud-kvm" rhel65.json
@@ -68,7 +68,7 @@ Before you start with RedHat you need a valid subscription to download the lates
 
 ## Issues during build time
 
-If you expierence issues with packer, please use `PACKER_LOG=1 packer ... ` to find the errors.
+If you experience issues with packer, please use `PACKER_LOG=1 packer ... ` to find the errors.
 
 ## Author
 
