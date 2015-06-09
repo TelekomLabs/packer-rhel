@@ -1,0 +1,54 @@
+{
+  "provisioners": [{
+    "type": "shell",
+    "scripts": [
+      "scripts/rhn_reg.sh",
+      "scripts/base.sh",
+      "scripts/epel.sh",
+      "scripts/cloud.sh",
+      "scripts/rhn_unreg.sh",
+      "scripts/cleanup.sh",
+      "scripts/zerodisk.sh"
+    ],
+    "override": {
+      "rhel-6-cloud-kvm": {
+        "execute_command": "sh '{{.Path}}'"
+      }
+    },
+    "only": ["rhel-6-cloud-kvm"]
+  }],
+  "builders": [{
+      "name": "rhel-6-cloud-kvm",
+      "type": "qemu",
+      "iso_checksum": "a51b90f3dd4585781293ea08adde60eeb9cfa94670943bd99e9c07f13a259539",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://yourrheldownloadurl.com/rhel-server-6.5-x86_64-dvd.iso",
+      "output_directory": "img_rhel_6_openstack",
+      "ssh_wait_timeout": "30s",
+      "shutdown_command": "shutdown -P now",
+      "disk_size": 5000,
+      "format": "qcow2",
+      "headless": false,
+      "accelerator": "kvm",
+      "http_directory": "http",
+      "http_port_min": 10082,
+      "http_port_max": 10089,
+      "ssh_host_port_min": 2222,
+      "ssh_host_port_max": 2229,
+      "ssh_username": "root",
+      "ssh_password": "changeme",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "90m",
+      "vm_name": "rhel6_openstack",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_cloud.cfg<enter><wait>"
+      ]
+    }],
+  "post-processors": [{
+    "type": "vagrant",
+    "compression_level": 1,
+    "keep_input_artifact": true
+  }]
+}
