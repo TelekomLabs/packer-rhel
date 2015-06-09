@@ -141,6 +141,7 @@
       "iso_checksum_type": "md5",
       "iso_url": "http://ftp.tu-chemnitz.de/pub/linux/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.iso",
       "output_directory": "img_centos_6_virtualbox",
+      "headless": true,
       "ssh_username": "root",
       "ssh_password": "changeme",
       "ssh_port": 22,
