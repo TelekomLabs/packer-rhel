@@ -50,7 +50,7 @@ The templates are only tested with [packer](http://www.packer.io/downloads.html)
     packer build -only="oel-6-cloud-kvm" packer-oel-6.json
     
     # Reduce the file size
-    qemu-img convert -c -f qcow2 -O qcow2 -o cluster_size=2M img_oel_6_openstack/oel6_openstack.qcow2 img_oel_6_openstack/centos6_openstack_compressed.qcow2
+    qemu-img convert -c -f qcow2 -O qcow2 -o cluster_size=2M img_oel_6_openstack/oel6_openstack.qcow2 img_oel_6_openstack/oel6_openstack_compressed.qcow2
     
     # Upload the file to open stack
     glance image-create --name "OEL 6.5" --container-format ovf --disk-format qcow2 --file img_oel_6_openstack/centos6_openstack_compressed.qcow2 --is-public True --progress
@@ -67,6 +67,7 @@ Before you start with RedHat you need a valid subscription to download the lates
 
     # Upload the file to open stack
     glance image-create --name "RedHat 6.5" --container-format ovf --disk-format qcow2 --file rhel6_openstack_compressed.qcow2 --is-public True --progress
+
 
 ## Issues during build time
 
