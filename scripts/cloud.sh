@@ -3,6 +3,8 @@ yum -y update
 
 # Installs cloudinit
 yum -y install cloud-init
+# Install cloud-utils for disk grow
+yum -y install cloud-utils
 
 # configure cloud init 'cloud-user' as sudo
 # this is not configured via default cloudinit config
