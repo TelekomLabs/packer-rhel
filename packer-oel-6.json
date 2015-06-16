@@ -1,0 +1,180 @@
+{
+  "provisioners": [{
+    "type": "shell",
+    "scripts": [
+      "scripts/base.sh",
+      "scripts/epel.sh",
+      "scripts/development.sh",
+      "scripts/chef.sh",
+      "scripts/puppet.sh",
+      "scripts/vagrant.sh",
+      "scripts/virtualbox.sh",
+      "scripts/cleanup.sh",
+      "scripts/zerodisk.sh"
+    ],
+    "override": {
+      "oel-6-vbox": {
+        "execute_command": "echo 'packer'|sudo -S sh '{{.Path}}'"
+      },
+      "oel-6-vmware": {
+        "execute_command": "echo 'packer'|sudo -S sh '{{.Path}}'"
+      }
+    },
+    "only": ["oel-6-vbox", "oel-6-vmware"]
+  }, {
+    "type": "shell",
+    "scripts": [
+      "scripts/base.sh",
+      "scripts/epel.sh",
+      "scripts/cloud.sh",
+      "scripts/cloud_oel.sh",
+      "scripts/cleanup.sh",
+      "scripts/zerodisk.sh"
+    ],
+    "override": {
+      "oel-6-cloud-kvm": {
+        "execute_command": "sh '{{.Path}}'"
+      },
+      "oel-6-cloud-vbox": {
+        "execute_command": "sh '{{.Path}}'"
+      }
+    },
+    "only": ["oel-6-cloud-kvm", "oel-6-cloud-vbox"]
+  }],
+  "builders": [
+  {
+    "name": "oel-6-vbox",
+    "type": "virtualbox-iso",
+    "boot_command": [
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+    ],
+    "boot_wait": "10s",
+    "disk_size": 10140,
+    "guest_os_type": "RedHat_64",
+    "http_directory": "http",
+    "iso_checksum": "5738f10a506d3630edfd297ef179b553091c6a48",
+    "iso_checksum_type": "sha1",
+    "iso_url": "http://mirror.netcologne.de/oracle-linux/OL6/U6/x86_64/OracleLinux-R6-U6-Server-x86_64-dvd.iso",
+    "output_directory": "img_oel_6_virtualbox",
+    "ssh_username": "packer",
+    "ssh_password": "packer",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'packer'|sudo -S sh 'shutdown.sh'",
+    "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+    "virtualbox_version_file": ".vbox_version",
+    "vboxmanage": [
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--memory",
+        "480"
+      ],
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--cpus",
+        "1"
+      ]
+    ]
+  },
+  {
+    "name": "oel-6-vmware",
+    "type": "vmware-iso",
+    "boot_command": [
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+    ],
+    "boot_wait": "10s",
+    "disk_size": 10140,
+    "guest_os_type": "rhel6-64",
+    "http_directory": "http",
+    "iso_checksum": "5738f10a506d3630edfd297ef179b553091c6a48",
+    "iso_checksum_type": "sha1",
+    "iso_url": "http://mirror.netcologne.de/oracle-linux/OL6/U6/x86_64/OracleLinux-R6-U6-Server-x86_64-dvd.iso",
+    "output_directory": "img_oel_6_vmware",
+    "ssh_username": "packer",
+    "ssh_password": "packer",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'packer'|sudo -S sh 'shutdown.sh'",
+    "vmx_data": {
+      "memsize": "480",
+      "numvcpus": "1",
+      "cpuid.coresPerSocket": "1"
+    }
+  },
+  {
+    "name": "oel-6-cloud-vbox",
+    "type": "virtualbox-iso",
+    "boot_command": [
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_cloud_oel.cfg<enter><wait>"
+    ],
+    "boot_wait": "10s",
+    "disk_size": 10140,
+    "guest_os_type": "RedHat_64",
+    "http_directory": "http",
+    "iso_checksum": "5738f10a506d3630edfd297ef179b553091c6a48",
+    "iso_checksum_type": "sha1",
+    "iso_url": "http://mirror.netcologne.de/oracle-linux/OL6/U6/x86_64/OracleLinux-R6-U6-Server-x86_64-dvd.iso",
+    "output_directory": "img_oel_6_openstack",
+    "headless": true,
+    "ssh_username": "root",
+    "ssh_password": "changeme",
+    "ssh_port": 22,
+    "ssh_wait_timeout": "10000s",
+    "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'packer'|sudo -S sh 'shutdown.sh'",
+    "vboxmanage": [
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--memory",
+        "480"
+      ],
+      [
+        "modifyvm",
+        "{{.Name}}",
+        "--cpus",
+        "1"
+      ]
+    ]
+  }, {
+      "name": "oel-6-cloud-kvm",
+      "type": "qemu",
+      "iso_checksum": "5738f10a506d3630edfd297ef179b553091c6a48",
+      "iso_checksum_type": "sha1",
+      "iso_url": "http://mirror.netcologne.de/oracle-linux/OL6/U6/x86_64/OracleLinux-R6-U6-Server-x86_64-dvd.iso",
+      "output_directory": "img_oel_6_openstack",
+      "ssh_wait_timeout": "30s",
+      "shutdown_command": "shutdown -P now",
+      "disk_size": 2500,
+      "format": "raw",
+      "qemuargs": [
+        [ "-m", "1024m" ],
+        ["-machine", "type=pc,accel=kvm"],
+        ["-device", "virtio-net-pci,netdev=user.0"]
+      ],
+      "headless": true,
+      "accelerator": "kvm",
+      "http_directory": "http",
+      "http_port_min": 10082,
+      "http_port_max": 10089,
+      "ssh_host_port_min": 2222,
+      "ssh_host_port_max": 2229,
+      "ssh_username": "root",
+      "ssh_password": "changeme",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "90m",
+      "vm_name": "oel6_openstack",
+      "net_device": "virtio-net",
+      "disk_interface": "virtio",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_cloud_oel.cfg<enter><wait>"
+      ]
+    }],
+  "post-processors": [{
+    "type": "vagrant",
+    "compression_level": 1,
+    "keep_input_artifact": true,
+    "only": ["oel-6-vbox", "oel-6-vmware"]
+  }]
+}

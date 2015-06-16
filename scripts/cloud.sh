@@ -1,8 +1,8 @@
 # to install the following packages, epel is required
 yum -y update
 
-# Installs cloudinit
-yum -y install cloud-init
+# Installs cloudinit, cloud-utils for disk grow
+yum -y install cloud-utils cloud-init parted git
 
 # configure cloud init 'cloud-user' as sudo
 # this is not configured via default cloudinit config

@@ -1,12 +1,14 @@
-# Packer Image Builder for RHEL Family
+# Packer Image Builder for RHEL Family (RedHat, CentOS, Oracle Linux)
 
 ## Introduction
 
-This repository started by using the [veewee templates](https://github.com/jedi4ever/veewee/tree/master/templates) for Centos OS. They have been adapted and improved. Furthermore the build mechanism changed. Instead of maintaining multiple templates for RedHat, Centos and Oracle Linux we use the same scripts for all of them. Currently this templates support
+This packer templates create vagrant, vmware and kvm images of RedHat 6, CentOS 6 and Oracle Linux 6. The templates support VirtualBox, VmWare and KVM. The kvm images, also run in OpenStack. 
 
- - RedHat 6.5
- - Centos 6.5
- - Oracle Linux 6.5
+The OS versions are:
+
+ - RedHat 6.6
+ - Centos 6.6
+ - Oracle Linux 6.6
 
 For all operating systems we generate images for 
 
@@ -23,10 +25,10 @@ The templates are only tested with [packer](http://www.packer.io/downloads.html)
 ## Run conversion process
 
     # Build CentOS virtualbox image
-    PACKER_LOG=1 packer build -only="centos-65-vbox" rhel65.json
+    PACKER_LOG=1 packer build -only="centos-6-vbox" packer-centos-6.json
 
     # Build Oracle Linux virtualbox image
-    PACKER_LOG=1 packer build -only="oel-65-vbox" rhel65.json
+    PACKER_LOG=1 packer build -only="oel-6-vbox" packer-oel-6.json
 
 ## Build cloud images for openstack
 
@@ -34,37 +36,38 @@ The templates are only tested with [packer](http://www.packer.io/downloads.html)
 
     # Build CentOS openstack image and compress qcow2 image before 
     # upload (normally from 4.5 GB to less than 500 MB)
-    packer build -only="centos-65-cloud-kvm" rhel65.json
+    packer build -only="centos-6-cloud-kvm" packer-centos-6.json
 
     # Reduce the file size
-    qemu-img convert -c -f qcow2 -O qcow2 -o cluster_size=2M img_centos_65_openstack/centos65_openstack.qcow2 img_centos_65_openstack/centos65_openstack_compressed.qcow2
+    qemu-img convert -c -f qcow2 -O qcow2 -o cluster_size=2M img_centos_6_openstack/centos6_openstack.qcow2 img_centos_6_openstack/centos6_openstack_compressed.qcow2
 
     # Upload the file to open stack
-    glance image-create --name "CentOS 6.5" --container-format ovf --disk-format qcow2 --file img_centos_65_openstack/centos65_openstack_compressed.qcow2 --is-public True --progress
+    glance image-create --name "CentOS 6.5" --container-format ovf --disk-format qcow2 --file img_centos_6_openstack/centos6_openstack_compressed.qcow2 --is-public True --progress
 
 ### Oracle Linux
 
     # Build Oracle Linux openstack image and compress qcow2 image before 
-    packer build -only="oel-65-cloud-kvm" rhel65.json
+    packer build -only="oel-6-cloud-kvm" packer-oel-6.json
     
     # Reduce the file size
-    qemu-img convert -c -f qcow2 -O qcow2 -o cluster_size=2M img_oel_65_openstack/oel65_openstack.qcow2 img_oel_65_openstack/centos65_openstack_compressed.qcow2
+    qemu-img convert -c -f qcow2 -O qcow2 -o cluster_size=2M img_oel_6_openstack/oel6_openstack.qcow2 img_oel_6_openstack/oel6_openstack_compressed.qcow2
     
     # Upload the file to open stack
-    glance image-create --name "OEL 6.5" --container-format ovf --disk-format qcow2 --file img_oel_65_openstack/centos65_openstack_compressed.qcow2 --is-public True --progress
+    glance image-create --name "OEL 6.5" --container-format ovf --disk-format qcow2 --file img_oel_6_openstack/centos6_openstack_compressed.qcow2 --is-public True --progress
 
 ### RedHat
 
-Before you start with RedHat you need a valid subscription to download the latest iso image. Update the `iso_url` parameter in rhel65.json accordingly. Additionally you need to modify the file `scripts/rhn_reg` with your user credentials to recieve yum updates during the packer run.
+Before you start with RedHat you need a valid subscription to download the latest iso image. Update the `iso_url` parameter in rhel6.json accordingly. Additionally you need to modify the file `scripts/rhn_reg` with your user credentials to recieve yum updates during the packer run.
 
     # Build RedHat openstack image
-    packer build -only="rhel-65-cloud-kvm" rhel65.json
+    packer build -only="rhel-6-cloud-kvm" packer-rhel-6.json
 
     # Reduce the file size
-    qemu-img convert -c -f qcow2 -O qcow2 -o cluster_size=2M rhel65_openstack.qcow2 rhel65_openstack_compressed.qcow2
+    qemu-img convert -c -f qcow2 -O qcow2 -o cluster_size=2M rhel6_openstack.qcow2 rhel6_openstack_compressed.qcow2
 
     # Upload the file to open stack
-    glance image-create --name "RedHat 6.5" --container-format ovf --disk-format qcow2 --file rhel65_openstack_compressed.qcow2 --is-public True --progress
+    glance image-create --name "RedHat 6.5" --container-format ovf --disk-format qcow2 --file rhel6_openstack_compressed.qcow2 --is-public True --progress
+
 
 ## Issues during build time
 
