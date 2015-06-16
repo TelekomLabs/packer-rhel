@@ -4,12 +4,6 @@ yum -y update
 # Installs cloudinit, cloud-utils for disk grow
 yum -y install cloud-utils cloud-init parted git
 
-# rebuild the initramfs
-# http://lists.openstack.org/pipermail/openstack/2015-January/011245.html
-# http://lists.openstack.org/pipermail/openstack/2014-August/008802.html
-#yum -y install dracut-modules-growroot
-#dracut --force
-
 # configure cloud init 'cloud-user' as sudo
 # this is not configured via default cloudinit config
 cat > /etc/cloud/cloud.cfg.d/02_user.cfg <<EOL

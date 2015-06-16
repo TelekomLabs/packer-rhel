@@ -106,7 +106,7 @@
     "name": "oel-6-cloud-vbox",
     "type": "virtualbox-iso",
     "boot_command": [
-      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_cloud.cfg<enter><wait>"
+      "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_cloud_oel.cfg<enter><wait>"
     ],
     "boot_wait": "10s",
     "disk_size": 10140,
@@ -167,7 +167,7 @@
       "net_device": "virtio-net",
       "disk_interface": "virtio",
       "boot_command": [
-        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_cloud.cfg<enter><wait>"
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks_cloud_oel.cfg<enter><wait>"
       ]
     }],
   "post-processors": [{
