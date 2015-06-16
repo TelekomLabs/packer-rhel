@@ -108,8 +108,13 @@
       "output_directory": "img_centos_6_openstack",
       "ssh_wait_timeout": "30s",
       "shutdown_command": "shutdown -P now",
-      "disk_size": 6000,
-      "format": "qcow2",
+      "disk_size": 1200,
+      "format": "raw",
+      "qemuargs": [
+        [ "-m", "1024m" ],
+        ["-machine", "type=pc,accel=kvm"],
+        ["-device", "virtio-net-pci,netdev=user.0"]
+      ],
       "headless": true,
       "accelerator": "kvm",
       "http_directory": "http",
