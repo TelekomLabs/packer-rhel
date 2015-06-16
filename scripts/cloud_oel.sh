@@ -26,6 +26,7 @@ ssh_genkeytypes:  ~
 syslog_fix_perms: ~
 
 cloud_init_modules:
+ - migrator
  - bootcmd
  - write-files
  - growpart
@@ -71,3 +72,5 @@ system_info:
 
 # vim:syntax=yaml
 EOL
+
+chmod 0664 /etc/cloud/cloud.cfg
