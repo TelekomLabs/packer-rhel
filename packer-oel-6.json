@@ -27,6 +27,7 @@
       "scripts/base.sh",
       "scripts/epel.sh",
       "scripts/cloud.sh",
+      "scripts/cloud_oel.sh",
       "scripts/cleanup.sh",
       "scripts/zerodisk.sh"
     ],
@@ -145,7 +146,7 @@
       "output_directory": "img_oel_6_openstack",
       "ssh_wait_timeout": "30s",
       "shutdown_command": "shutdown -P now",
-      "disk_size": 1200,
+      "disk_size": 2500,
       "format": "raw",
       "qemuargs": [
         [ "-m", "1024m" ],
