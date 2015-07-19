@@ -59,5 +59,6 @@ sed -i 's/eth0/eth1/' /etc/sysconfig/network-scripts/ifcfg-eth1
 
 # remove password from root
 passwd -d root
+passwd -l root
 
 
